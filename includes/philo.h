@@ -6,7 +6,7 @@
 /*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/16 17:21:35 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/16 17:47:38 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 typedef struct s_philo
 {
 	int			philo_n;
+	int			spoon;
 	int			timer_1;
 	int			timer_2;
 	pthread_t	tid;

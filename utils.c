@@ -6,7 +6,7 @@
 /*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/16 14:39:43 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/16 17:17:47 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/16 17:48:10 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_state(t_state *state)
 void	init_philo(t_philo *philo, int index)
 {
 	philo->philo_n = index + 1;
+	philo->spoon = 1;
 	philo->timer_1 = 0;
 	philo->timer_2 = 0;
 }
