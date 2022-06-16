@@ -6,7 +6,7 @@
 /*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/16 17:24:13 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/16 17:37:37 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void *philo_thread_func(void *ptr)
 	printf("philo_thread_func\n");
 	philo = (t_philo *)ptr;
 	usleep(1000);
-	printf("I slept, my ID is= %ld\n", philo->tid);
+	printf("Philo_n = %d I slept, my ID is= %ld\n", philo->philo_n, philo->tid);
 	return (ptr);
 }
 
@@ -35,7 +35,6 @@ void	start_thread(t_state *state)
 	i = 0;
 	while (state->number_of_philo > i)
 	{
-		printf("start_thread\n");
 		pthread_create(&state->philo_arr[i].tid, NULL, philo_thread_func, (void *)&state->philo_arr[i]);
 		i++;
 	}
@@ -57,27 +56,14 @@ void make_philo_arr(t_state *state)
 
 int main(int argc, char **argv)
 {
-	
 	t_state		state;
-	//int			i;
-	//pthread_t	*philo_arr;
 
 	(void) argc;
 	(void) argv;
-	//i = 0;
 	init_state(&state);
-	printf("main\n");
 	make_philo_arr(&state);
-	philo_print(&state);
-	printf("main\n");
+	//philo_print(&state);
 	start_thread(&state);
-	printf("main\n");
-    // while (state.number_of_philo > i)
-    // {
-    //     pthread_create(new_thread, NULL, philo_thread_func, &state);
-    //     i++;
-        
-    // }
 	pthread_exit(NULL);
-	
+	return (0);
 }
