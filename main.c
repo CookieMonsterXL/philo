@@ -6,46 +6,78 @@
 /*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/01 19:56:01 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/16 17:24:13 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include "includes/philo.h"
 
-typedef struct s_stats
+void *philo_thread_func(void *ptr)
 {
-    int number_of_philo;
-    int number_of_forks;
-    int time_to_die;
-    int time_to_sleep;
-    int time_to_eat;
-}	t_stats;
+	t_philo *philo;
+	
+	printf("philo_thread_func\n");
+	philo = (t_philo *)ptr;
+	usleep(1000);
+	printf("I slept, my ID is= %ld\n", philo->tid);
+	return (ptr);
+}
 
-int philo_thread_func(void *ptr)
+void	start_thread(t_state *state)
 {
-	t_stats *state;
+	int	i;
+
+	i = 0;
+	while (state->number_of_philo > i)
+	{
+		printf("start_thread\n");
+		pthread_create(&state->philo_arr[i].tid, NULL, philo_thread_func, (void *)&state->philo_arr[i]);
+		i++;
+	}
+}
+
+void make_philo_arr(t_state *state)
+{
+	int i;
+
+	i = 0;
+	state->philo_arr = malloc(sizeof(t_philo) * state->number_of_philo);
 	
-	state = (t_stats *)ptr;
-	
-	
+	while (i < state->number_of_philo)
+	{
+		init_philo(&state->philo_arr[i], i);
+		i++;
+	}
 }
 
 int main(int argc, char **argv)
 {
-	t_stats	state;
 	
-    pthread_t   new_thread;
-    
-    state.number_of_philo = 5;
-    state.number_of_forks = state.number_of_philo;
-    state.time_to_die = 100;
-    state.time_to_sleep = 100;
-    state.time_to_eat = 100;
+	t_state		state;
+	//int			i;
+	//pthread_t	*philo_arr;
 
-    while (state.number_of_philo > i)
-    {
-        pthread_create(new_thread, NULL, philo_thread_func, &state);
-        i++;
+	(void) argc;
+	(void) argv;
+	//i = 0;
+	init_state(&state);
+	printf("main\n");
+	make_philo_arr(&state);
+	philo_print(&state);
+	printf("main\n");
+	start_thread(&state);
+	printf("main\n");
+    // while (state.number_of_philo > i)
+    // {
+    //     pthread_create(new_thread, NULL, philo_thread_func, &state);
+    //     i++;
         
-    }
+    // }
+	pthread_exit(NULL);
+	
 }
