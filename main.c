@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/16 17:37:37 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/17 16:29:18 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 #include <unistd.h>
 #include "includes/philo.h"
 
-void *philo_thread_func(void *ptr)
+void	*philo_thread_func(void *ptr)
 {
-	t_philo *philo;
-	
+	t_philo	*philo;
+
 	printf("philo_thread_func\n");
 	philo = (t_philo *)ptr;
 	usleep(1000);
@@ -46,7 +46,7 @@ void make_philo_arr(t_state *state)
 
 	i = 0;
 	state->philo_arr = malloc(sizeof(t_philo) * state->number_of_philo);
-	
+
 	while (i < state->number_of_philo)
 	{
 		init_philo(&state->philo_arr[i], i);
