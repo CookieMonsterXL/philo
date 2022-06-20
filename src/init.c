@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/20 14:24:04 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/20 16:22:42 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,18 @@ void	init_state(t_state *state, char **argv)
 	state->mutex_fork = malloc(sizeof(pthread_mutex_t *) * state->number_of_philo);
 	if (state->mutex_fork == NULL)
 		error_msg("Error: Malloc\n");
+	state->someone_died = 0;
 }
 
-void	init_philo(t_philo **philo, int index, t_state *state, pthread_mutex_t	*mutex_print)
+void	init_philo(t_philo **philo, int index, t_state *state)
 {
 	*philo = malloc(sizeof(t_philo));
 	(*philo)->philo_n = index;
 	(*philo)->spoon = 1;
-	(*philo)->dead_checker = 0;
+	(*philo)->is_dead = 0;
+	(*philo)->has_eaten = 0;
 	(*philo)->timer_2 = 0;
 	(*philo)->state = state;
 	(*philo)->state->mutex_fork[index] = malloc(sizeof(pthread_mutex_t));
-	(*philo)->mutex_print = mutex_print;
+	//(*philo)->mutex_print = mutex_print;
 }
