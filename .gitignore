@@ -1,3 +1,4 @@
 .vscode/
 obj/
 philo
+includes/libft/libft.a
