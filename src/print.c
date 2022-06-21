@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 17:02:20 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/21 18:54:10 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/21 19:19:34 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,17 @@ int	perror_msg(char *str)
 
 void	print_die(t_philo *philo)
 {
-		action_print(philo, "\tis dead\n");
-		error_msg("\n");
+	action_print(philo, "\tis dead\n");
+	exit(0);
 }
 
 int	action_print(t_philo *philo, char *str)
 {
+	long	curr_time;
+	
+	curr_time = current_time_stamp(philo);
 	lock(philo->state->mutex_print);
-	ft_putnbr_fd(current_time_stamp(philo), 1);
+	ft_putnbr_fd(curr_time, 1);
 	ft_putstr_fd(" ms Philo ", 1);
 	ft_putnbr_fd(philo->philo_n, 1);
 	ft_putstr_fd(str, 1);

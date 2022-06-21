@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 12:58:47 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/21 18:51:09 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/21 19:17:31 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	eat(t_philo *philo)
 {
 	lock(philo->state->mutex_fork[philo->philo_n]);
 	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
+	
 	action_print(philo, "\thas fork\n");
 	philo->start_eating = 1;
 	while(philo->reset_timer == 0)

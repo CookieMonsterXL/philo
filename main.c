@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/21 18:38:56 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/21 19:21:42 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*philo_thread_func(void *ptr)
 	pthread_create(&philo->tid, NULL, die, (void *)philo);
 	while (philo->state->someone_died == 0)
 	{
-		pthread_create(&philo->tid, NULL, die, (void *)philo); //start dead timer
+		//pthread_create(&philo->tid, NULL, die, (void *)philo); //start dead timer
 		eat(philo);
 		p_sleep(philo);
 	}
