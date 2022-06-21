@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 14:24:55 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/20 17:03:34 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   mutex.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 14:24:55 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/21 17:37:25 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-pthread_mutex_t	*make_print_mutex(void)
+pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex)
 {
-	pthread_mutex_t	*mutex_print;
 
-	mutex_print = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mutex_print, NULL);
-	return (mutex_print);
+
+	mutex = malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(mutex, NULL);
+	return (mutex);
 }
 
-pthread_mutex_t	*make_dead_mutex(void)
-{
-	pthread_mutex_t	*mutex_dead;
+// pthread_mutex_t	*make_dead_mutex(void)
+// {
+// 	pthread_mutex_t	*mutex_die_print;
 
-	mutex_dead = malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(mutex_dead, NULL);
-	return (mutex_dead);
-}
+// 	mutex_die_print = malloc(sizeof(pthread_mutex_t));
+// 	pthread_mutex_init(mutex_die_print, NULL);
+// 	return (mutex_die_print);
+// }
 
 int	destroy_mutex(t_state *state)
 {

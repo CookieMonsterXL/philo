@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/20 17:15:29 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/21 18:38:56 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ void	*philo_thread_func(void *ptr)
 	t_philo			*philo;
 
 	philo = (t_philo *)ptr;
+	usleep(1000);
 	pthread_create(&philo->tid, NULL, die, (void *)philo);
 	while (philo->state->someone_died == 0)
 	{
+		pthread_create(&philo->tid, NULL, die, (void *)philo); //start dead timer
 		eat(philo);
 		p_sleep(philo);
 	}
+	exit(0);
 	return (ptr);
 }
 
@@ -44,8 +47,9 @@ void	make_philo_arr(t_philo **philo, t_state *state)
 	//pthread_mutex_t	*mutex_print;
 
 	i = 0;
-	state->mutex_print = make_print_mutex();
-	state->mutex_dead = make_dead_mutex();
+	state->mutex_print = make_mutex(state->mutex_print);
+	state->mutex_die_print = make_mutex(state->mutex_die_print);
+	state->mutex_someone_died = make_mutex(state->mutex_someone_died);
 	while (i < state->number_of_philo)
 	{
 		init_philo(&philo[i], i, state);
@@ -64,6 +68,7 @@ int	main(int argc, char **argv)
 	init_state(&state, argv);
 	make_philo_arr(philo, &state);
 	//philo_print(philo);
+	start_program_time(&state);
 	start_thread(philo);
 	//destroy_mutex(&state);
 	//pthread_mutex_destroy((*philo)->mutex_print);

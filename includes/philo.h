@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/20 16:31:57 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/21 18:53:08 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,18 @@
 //struct	t_state;
 typedef struct s_state
 {
-    int 				number_of_philo;
+    int 				number_of_philo; 	//Arg	1
+    int					time_to_die; 		//		2
+    int					time_to_eat;		//		3
+    int					time_to_sleep;		//		4
+	int					number_of_times_each_philosopher_must_eat;	//5
     int					number_of_forks;
-    int					time_to_die;
-    int					time_to_sleep;
-    int					time_to_eat;
-	int					number_of_times_each_philosopher_must_eat;
 	pthread_mutex_t		**mutex_fork;
 	pthread_mutex_t		*mutex_print;
-	pthread_mutex_t		*mutex_dead;
+	pthread_mutex_t		*mutex_die_print;
+	pthread_mutex_t		*mutex_someone_died;
 	int					someone_died;
+	struct timeval		start_program;
 }	t_state;
 
 typedef struct s_philo
@@ -43,8 +45,8 @@ typedef struct s_philo
 	int				philo_n;
 	int				spoon;
 	int				is_dead;
-	int				has_eaten;
-	int				timer_2;
+	int				start_eating;
+	int				reset_timer;
 	pthread_t		tid;
 	t_state			*state;
 	//pthread_mutex_t	*mutex_print;
@@ -56,8 +58,6 @@ void	init_philo(t_philo **philo, int index,
 void	init_state(t_state *state, char **argv);
 
 //utils
-int		timer(t_philo *philo, long interval_time);
-int		d_timer(t_philo *philo, long interval_time);
 int		error_msg(char *str);
 int		perror_msg(char *str);
 int		action_print(t_philo *philo, char *str);
@@ -66,6 +66,7 @@ void	unlock(pthread_mutex_t *key);
 void	print_die(t_philo *philo);
 
 //MUTEX
+pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex);
 pthread_mutex_t	*make_print_mutex(void);
 pthread_mutex_t	*make_dead_mutex(void);
 int				destroy_mutex(t_state *state);
@@ -74,6 +75,12 @@ int				destroy_mutex(t_state *state);
 int		eat(t_philo *philo);
 int		p_sleep(t_philo *philo);
 void	*die(void *ptr);
+
+//TIMER
+int		start_program_time(t_state *state);
+long	current_time_stamp(t_philo *philo);
+int		timer(t_philo *philo, long interval_time);
+int		d_timer(t_philo *philo, long interval_time);
 
 //TESTS
 void	philo_print(t_philo **philo);
