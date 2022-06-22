@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 14:23:39 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/21 18:11:31 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/22 11:09:24 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	init_philo(t_philo **philo, int index, t_state *state)
 	(*philo)->reset_timer = 0;
 	(*philo)->state = state;
 	(*philo)->state->mutex_fork[index] = malloc(sizeof(pthread_mutex_t));
+	(*philo)->mutex_eat = make_mutex((*philo)->mutex_eat);
 	//(*philo)->mutex_print = mutex_print;
 }

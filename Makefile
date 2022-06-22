@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: tbouma <tbouma@student.42.fr>                +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/06/16 15:32:12 by tiemen        #+#    #+#                  #
-#    Updated: 2022/06/21 17:38:47 by tiemen        ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/06/16 15:32:12 by tiemen            #+#    #+#              #
+#    Updated: 2022/06/22 09:40:53 by tbouma           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ obj/src/init.o obj/src/mutex.o obj/src/timer.o obj/src/print.o
 OBJFILES_DEBUG := 
 LIBFT := includes/libft/libft.a
 HEADERS := -I includes/libft/
-CFLAGS := -Wall -Wextra -Werror #-fsanitize=thread -g3#-fsanitize=address -g3
+CFLAGS := -Wall -Wextra -Werror -fsanitize=thread -g3#-fsanitize=address -g3
 LFLAGS := -pthread #-lpthread 
 FLAGS_DEBUG := -fsanitize=address -g3
 CC := gcc

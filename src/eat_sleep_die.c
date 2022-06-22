@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   eat_sleep_die.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 12:58:47 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/21 19:17:31 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   eat_sleep_die.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/22 11:30:05 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,20 @@ int	eat(t_philo *philo)
 	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
 	
 	action_print(philo, "\thas fork\n");
+	lock(philo->mutex_eat);
 	philo->start_eating = 1;
-	while(philo->reset_timer == 0)
-		usleep(250);
+	unlock(philo->mutex_eat);
+	while (1)
+	{
+		lock(philo->mutex_eat);
+		if (philo->reset_timer == 1) //KLOPT DIT!!!????????
+			break ;
+		unlock(philo->mutex_eat);
+		usleep(500);
+	}
+	lock(philo->mutex_eat);
 	philo->reset_timer = 0;
+	unlock(philo->mutex_eat);
 	action_print(philo, "\tis eating\n");
 	if (timer(philo, philo->state->time_to_eat))
 	{
@@ -53,13 +63,13 @@ void	*die(void *ptr)
 	philo = (t_philo *)ptr;
 	if (d_timer(philo, philo->state->time_to_die))
 		return (ptr);
-	if (philo->start_eating == 0)
-	{
-		philo->is_dead = 1;
-		lock(philo->state->mutex_someone_died);
-		philo->state->someone_died = 1;
-		unlock(philo->state->mutex_someone_died);
-	}
-	pthread_exit(0);//exit(0);
+	// if (philo->start_eating == 0)
+	// {
+	// 	philo->is_dead = 1;
+	// 	lock(philo->state->mutex_someone_died);
+	// 	philo->state->someone_died = 1;
+	// 	unlock(philo->state->mutex_someone_died);
+	// }
+	exit(0);// pthread_exit(0);
 	return (ptr);
 }
