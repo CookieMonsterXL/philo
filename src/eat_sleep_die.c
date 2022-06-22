@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   eat_sleep_die.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/22 11:30:05 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   eat_sleep_die.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 12:58:47 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/22 18:32:43 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,62 +14,63 @@
 
 int	eat(t_philo *philo)
 {
+	int checker;
 	lock(philo->state->mutex_fork[philo->philo_n]);
 	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
-	
+	if (check_die_timer(philo) ==  1)
+		return (1);
 	action_print(philo, "\thas fork\n");
-	lock(philo->mutex_eat);
-	philo->start_eating = 1;
-	unlock(philo->mutex_eat);
-	while (1)
-	{
-		lock(philo->mutex_eat);
-		if (philo->reset_timer == 1) //KLOPT DIT!!!????????
-			break ;
-		unlock(philo->mutex_eat);
-		usleep(500);
-	}
-	lock(philo->mutex_eat);
-	philo->reset_timer = 0;
-	unlock(philo->mutex_eat);
 	action_print(philo, "\tis eating\n");
-	if (timer(philo, philo->state->time_to_eat))
-	{
-		lock(philo->state->mutex_die_print);
-		print_die(philo);
-		unlock(philo->state->mutex_die_print);
-	}
+	reset_die_timer(philo);
+	checker = timer(philo, philo->state->time_to_eat);
 	unlock(philo->state->mutex_fork[philo->philo_n]);
 	unlock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
-	return (0);
+	if (check_die_timer(philo) ==  SELF_DIE)
+		return (SELF_DIE);
+	return (checker);
 }
 
 int	p_sleep(t_philo *philo)
 {
+	int checker;
 	action_print(philo, "\tis sleeping\n");
-	if (timer(philo, philo->state->time_to_sleep))
-	{
-		lock(philo->state->mutex_die_print);
-		print_die(philo);
-		unlock(philo->state->mutex_die_print);
-	}
-	return (0);
+	checker = timer(philo, philo->state->time_to_sleep);
+	if (check_die_timer(philo) ==  SELF_DIE)
+		return (SELF_DIE);
+	return (checker);
 }
 
-void	*die(void *ptr)
+int	die(t_philo *philo)
 {
-	t_philo			*philo;
+	int checker;
+	
+	checker = check_other_dead(philo);
+	set_die_var(philo);
+	lock(philo->state->mutex_die_print);
+	if (checker == NOT_DEAD)
+	{
+		print_die(philo);
+		checker = SELF_DIE;
+	}
+	unlock(philo->state->mutex_die_print);
+	return (checker);
+}
 
-	philo = (t_philo *)ptr;
-	if (d_timer(philo, philo->state->time_to_die))
-		return (ptr);
-	// if (philo->start_eating == 0)
-	// {
-	// 	philo->is_dead = 1;
-	// 	lock(philo->state->mutex_someone_died);
-	// 	philo->state->someone_died = 1;
-	// 	unlock(philo->state->mutex_someone_died);
-	// }
-	exit(0);// pthread_exit(0);
-	return (ptr);
+int	check_other_dead(t_philo *philo)
+{
+	int checker;
+	lock(philo->state->mutex_someone_died);
+	if (philo->state->someone_died == 1)
+		checker = OTHER_DIE;
+	else
+		checker = SELF_DIE;
+	unlock(philo->state->mutex_someone_died);
+	return (checker);
+}
+
+void	set_die_var(t_philo *philo)
+{
+	lock(philo->state->mutex_someone_died);
+	philo->state->someone_died = SELF_DIE;
+	unlock(philo->state->mutex_someone_died);
 }

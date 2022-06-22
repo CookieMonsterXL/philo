@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/22 10:29:09 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/22 18:32:02 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <unistd.h>
 # include <errno.h>
 
+# define	NOT_DEAD	0
+# define	SELF_DIE	1
+# define	OTHER_DIE	2
 //struct	t_state;
 typedef struct s_state
 {
@@ -51,6 +54,8 @@ typedef struct s_philo
 	t_state			*state;
 	pthread_mutex_t		*mutex_eat;
 	//pthread_mutex_t	*mutex_print;
+	struct timeval		start_die_timer;
+	struct timeval		current_die_timer;
 }	t_philo;
 
 //INIT
@@ -75,13 +80,20 @@ int				destroy_mutex(t_state *state);
 //EAT SLEEP REPEAT
 int		eat(t_philo *philo);
 int		p_sleep(t_philo *philo);
-void	*die(void *ptr);
+int	die(t_philo *philo);
+
+void	set_die_var(t_philo *philo);
+int	check_other_dead(t_philo *philo);
+
 
 //TIMER
 int		start_program_time(t_state *state);
 long	current_time_stamp(t_philo *philo);
 int		timer(t_philo *philo, long interval_time);
 int		d_timer(t_philo *philo, long interval_time);
+
+long	check_die_timer(t_philo *philo);
+int	reset_die_timer(t_philo *philo);
 
 //TESTS
 void	philo_print(t_philo **philo);

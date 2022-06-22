@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/22 10:55:53 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/22 18:27:24 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,40 @@
 
 void	*philo_thread_func(void *ptr)
 {
+	int				checker;
 	t_philo			*philo;
 
 	philo = (t_philo *)ptr;
 	usleep(1000);
-	pthread_create(&philo->tid, NULL, die, (void *)philo);
 	while (1)
 	{
+		checker = check_die_timer(philo);
+		if (checker == SELF_DIE)
+		{
+			die(philo);
+			break ;
+		}
 		lock(philo->state->mutex_someone_died);
 		if (philo->state->someone_died == 1)
 			break ;
 		unlock(philo->state->mutex_someone_died);
-		//pthread_create(&philo->tid, NULL, die, (void *)philo); //start dead timer
-		eat(philo);
-		p_sleep(philo);
+		checker = eat(philo);
+		if (checker == SELF_DIE)
+		{
+			die(philo);
+			break ;
+		}
+		else if (checker == OTHER_DIE)
+			break ;
+		checker = p_sleep(philo);
+		if (checker == SELF_DIE)
+		{
+			die(philo);
+			break ;
+		}
+		else if (checker == OTHER_DIE)
+			break ;
 	}
-	exit(0);
 	return (ptr);
 }
 
