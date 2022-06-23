@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   timer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/23 12:22:05 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   timer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/23 16:57:38 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ int	timer(t_philo *philo, long interval_time)
 		return (TIME_ERR);
 	while (curr_time - start_time < interval_time * 1000)
 	{
-		usleep(250);
+		usleep(500);
 		if (get_time(&curr_timeval, &curr_time))
 			return (TIME_ERR);
 		if (check_die_timer(philo) ==  SELF_DIE)
 			return (SELF_DIE);
-		lock(philo->state->mutex_someone_died);
-		if (philo->state->someone_died == SELF_DIE && philo->is_dead == NOT_DEAD)
-		{
-			unlock(philo->state->mutex_someone_died);
-			return (OTHER_DIE);
-		}	
-		unlock(philo->state->mutex_someone_died);
 	}
-	return (0);
+	// lock(philo->state->mutex_someone_died);
+	// if (philo->state->someone_died == SELF_DIE && philo->is_dead == NOT_DEAD)
+	// {
+	// 	unlock(philo->state->mutex_someone_died);
+	// 	return (OTHER_DIE);
+	// }	
+	// unlock(philo->state->mutex_someone_died);
+	return (check_other_dead(philo));
 }
 
 long	current_time_stamp_ms(t_philo *philo)
@@ -57,6 +57,7 @@ long	check_die_timer(t_philo *philo)
 {
 	if (get_time(&philo->current_die_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
+	//printf("\nDIETIMER curr= %lli\n", philo->current_die_timer - philo->start_die_timer);
 	if (((philo->current_die_timer - philo->start_die_timer) / 1000) > philo->state->time_to_die)
 	{
 		philo->is_dead = 1;
@@ -68,7 +69,9 @@ long	check_die_timer(t_philo *philo)
 
 int	reset_die_timer(t_philo *philo)
 {
-	return (get_time(&philo->start_die_timeval, &philo->start_die_timer));
+	get_time(&philo->start_die_timeval, &philo->start_die_timer);
+	//printf("\nDIETIMER RESET= %lli\n", philo->start_die_timer);
+	return (0);
 }
 
 int	get_time(struct timeval	*timeval, long long *timestamp) //TIMEVAL gets set, TIMESTAMP is made

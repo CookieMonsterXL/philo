@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/22 11:09:24 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   init.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 14:23:39 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/23 18:52:44 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	init_state(t_state *state, char **argv)
 	state->mutex_fork = malloc(sizeof(pthread_mutex_t *) * state->number_of_philo);
 	if (state->mutex_fork == NULL)
 		error_msg("Error: Malloc\n");
+	state->bool_fork = malloc(sizeof(bool) * state->number_of_philo);
+	if (state->bool_fork == NULL)
+		error_msg("Error: Malloc\n");
 	state->someone_died = 0;
 }
 
@@ -35,6 +38,7 @@ void	init_philo(t_philo **philo, int index, t_state *state)
 	(*philo)->reset_timer = 0;
 	(*philo)->state = state;
 	(*philo)->state->mutex_fork[index] = malloc(sizeof(pthread_mutex_t));
+	(*philo)->state->bool_fork[index] = true;
 	(*philo)->mutex_eat = make_mutex((*philo)->mutex_eat);
 	//(*philo)->mutex_print = mutex_print;
 }

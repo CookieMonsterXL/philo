@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/23 12:12:18 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/23 18:49:47 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 # include <errno.h>
+# include <stdbool.h>
 
 # define	NOT_DEAD	0
 # define	SELF_DIE	1
@@ -37,6 +38,7 @@ typedef struct s_state
 	int					number_of_times_each_philosopher_must_eat;	//5
     int					number_of_forks;
 	pthread_mutex_t		**mutex_fork;
+	bool				*bool_fork;
 	pthread_mutex_t		*mutex_print;
 	pthread_mutex_t		*mutex_die_print;
 	pthread_mutex_t		*mutex_someone_died;
@@ -85,6 +87,7 @@ int				destroy_mutex(t_state *state);
 
 //EAT SLEEP REPEAT
 int		eat(t_philo *philo);
+int		eat_lefty(t_philo *philo);
 int		p_sleep(t_philo *philo);
 int	die(t_philo *philo);
 

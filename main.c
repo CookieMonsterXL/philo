@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/23 10:37:25 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/23 17:07:26 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
+
+int	checker_action(t_philo *philo, int checker)
+{
+	if (checker == SELF_DIE)
+	{
+		checker = die(philo);
+		return (checker);
+	}
+	if (checker == OTHER_DIE)
+		return (checker);
+	if (checker == TIME_ERR)
+		return (-1);// checken
+	return (0);
+}
 
 void	*philo_thread_func(void *ptr)
 {
@@ -18,35 +32,24 @@ void	*philo_thread_func(void *ptr)
 	t_philo			*philo;
 
 	philo = (t_philo *)ptr;
-	usleep(1000);
+	usleep(3000);
 	reset_die_timer(philo);
 	while (1)
 	{
+		if (check_other_dead(philo) == 2)
+			break ;
 		checker = check_die_timer(philo);
-		if (checker == SELF_DIE)
-		{
-			die(philo);
+		
+		if (checker_action(philo, checker) != 0)
 			break ;
-		}
-		lock(philo->state->mutex_someone_died);
-		if (philo->state->someone_died == 1)
-			break ;
-		unlock(philo->state->mutex_someone_died);
-		checker = eat(philo);
-		if (checker == SELF_DIE)
-		{
-			die(philo);
-			break ;
-		}
-		else if (checker == OTHER_DIE)
+		if (philo->philo_n % 2 == 0)
+			checker = eat(philo);
+		else
+			checker = eat_lefty(philo);
+		if (checker_action(philo, checker) != 0)
 			break ;
 		checker = p_sleep(philo);
-		if (checker == SELF_DIE)
-		{
-			die(philo);
-			break ;
-		}
-		else if (checker == OTHER_DIE)
+		if (checker_action(philo, checker) != 0)
 			break ;
 	}
 	return (ptr);
