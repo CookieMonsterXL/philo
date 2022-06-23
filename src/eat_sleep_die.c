@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   eat_sleep_die.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 12:58:47 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/22 18:32:43 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   eat_sleep_die.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/23 12:09:24 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	eat(t_philo *philo)
 	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
 	if (check_die_timer(philo) ==  1)
 		return (1);
-	action_print(philo, "\thas fork\n");
+	//action_print(philo, "\thas fork\n");
 	action_print(philo, "\tis eating\n");
 	reset_die_timer(philo);
 	checker = timer(philo, philo->state->time_to_eat);
