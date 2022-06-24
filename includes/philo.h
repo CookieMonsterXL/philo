@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/23 18:49:47 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/24 15:37:04 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,53 @@
 # include <errno.h>
 # include <stdbool.h>
 
+//FUNC RETURN VALUES
 # define	NOT_DEAD	0
 # define	SELF_DIE	1
 # define	OTHER_DIE	2
 # define	TIME_ERR	10
+
+
+// Colors
+
+# define RESET "\e[0m"
+# define PINK "\e[0;38;5;199m"
+# define GREEN "\e[0;32m"
+# define BLUE "\e[0;34m"
+# define G_BLUE "\e[0;38;5;24m"
+# define B_BLUE "\e[1;34m"
+# define G_CYAN "\e[0;38;5;44m"
+
+/*
+** Error messages
+*/
+# define NUM_ARGS "ERROR: The number of argments must be 4 or 5"
+# define ARG1 "ERROR: There is a mistake in number of philosophers"
+# define ARG2 "ERROR: There is a mistake in time to die"
+# define ARG3 "ERROR: There is a mistake in time to eat"
+# define ARG4 "ERROR: There is a mistake in time to sleep"
+# define ARG5 "ERROR: There is a mistake in number of times each \
+philosopher must eat"
+
+/*
+** Help message
+*/
+# define HELP "The number of argments must be 4 or 5:\n\
+- arg1 number of philosophers\n\
+- arg2 time to die\n\
+- arg3 time to eat\n\
+- arg4 time to sleep\n\
+- arg5 number of times each philosopher must eat (optional)"
+
+/*
+** Routines messages
+*/
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define FORK "has taken a fork"
+# define DIED "died ☠️"
+
 //struct	t_state;
 typedef struct s_state
 {
@@ -64,6 +107,8 @@ typedef struct s_philo
 	long long		current_die_timer;
 	struct timeval		start_die_timeval;
 	struct timeval		current_die_timeval;
+
+	int				curr_timestamp_print;
 }	t_philo;
 
 //INIT

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mutex.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 14:24:55 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/22 10:28:06 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   mutex.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 14:24:55 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/24 15:37:59 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex)
 	pthread_mutex_init(mutex, NULL);
 	return (mutex);
 }
-
-// pthread_mutex_t	*make_dead_mutex(void)
-// {
-// 	pthread_mutex_t	*mutex_die_print;
-
-// 	mutex_die_print = malloc(sizeof(pthread_mutex_t));
-// 	pthread_mutex_init(mutex_die_print, NULL);
-// 	return (mutex_die_print);
-// }
 
 int	destroy_mutex(t_state *state)
 {

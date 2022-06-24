@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   timer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/24 12:21:53 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   timer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/24 14:54:50 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ long	current_time_stamp_ms(t_philo *philo)
 {
 	if (get_time(&philo->state->curr_program_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
-	return ((philo->current_die_timer - philo->state->start_program_timer) / 1000);
+	return ((philo->current_die_timer - philo->state->start_program_timer) / 100);
 }
 
 int	start_program_time(t_state *state)
