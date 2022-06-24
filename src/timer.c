@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   timer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/23 16:57:38 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   timer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/24 12:21:53 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,23 @@ int	start_program_time(t_state *state)
 
 long	check_die_timer(t_philo *philo)
 {
+	int checker;
+
+	// if (check_other_dead(philo == OTHER_DIE))
+	// 	return (OTHER_DIE);
+	checker = check_other_dead(philo);
+	if (checker == OTHER_DIE)
+		return (OTHER_DIE);
 	if (get_time(&philo->current_die_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
 	//printf("\nDIETIMER curr= %lli\n", philo->current_die_timer - philo->start_die_timer);
 	if (((philo->current_die_timer - philo->start_die_timer) / 1000) > philo->state->time_to_die)
 	{
-		philo->is_dead = 1;
-		return (SELF_DIE);
+		checker = die(philo);
+		return (checker);
 	}
 	else
-		return (NOT_DEAD);
+		return (checker);
 }
 
 int	reset_die_timer(t_philo *philo)

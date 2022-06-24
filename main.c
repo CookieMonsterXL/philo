@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/23 17:07:26 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/24 11:51:08 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,37 +22,43 @@ int	checker_action(t_philo *philo, int checker)
 	if (checker == OTHER_DIE)
 		return (checker);
 	if (checker == TIME_ERR)
-		return (-1);// checken
+		return (checker); // checken
 	return (0);
 }
 
 void	*philo_thread_func(void *ptr)
 {
-	int				checker;
+	//int				checker;
 	t_philo			*philo;
 
 	philo = (t_philo *)ptr;
-	usleep(3000);
+	if (philo->philo_n % 2 == 0)
+		usleep(200);
 	reset_die_timer(philo);
 	while (1)
 	{
-		if (check_other_dead(philo) == 2)
-			break ;
-		checker = check_die_timer(philo);
-		
-		if (checker_action(philo, checker) != 0)
-			break ;
-		if (philo->philo_n % 2 == 0)
-			checker = eat(philo);
-		else
-			checker = eat_lefty(philo);
-		if (checker_action(philo, checker) != 0)
-			break ;
-		checker = p_sleep(philo);
-		if (checker_action(philo, checker) != 0)
-			break ;
+		if (check_other_dead(philo) == OTHER_DIE)
+			return (NULL);
+		if (check_die_timer(philo) != 0)
+			return (NULL);
+		if (eat(philo) != 0)
+			return (NULL);
+		if (p_sleep(philo) != 0)
+			return (NULL);
 	}
-	return (ptr);
+	return (NULL);
+}
+
+void	wait_thread(t_philo **philo)
+{
+	int	i;
+
+	i = 0;
+	while ((*philo)->state->number_of_philo > i)
+	{
+		pthread_join(philo[i]->tid, NULL);
+		i++;
+	}
 }
 
 void	start_thread(t_philo **philo)
@@ -96,10 +102,11 @@ int	main(int argc, char **argv)
 	//philo_print(philo);
 	start_program_time(&state);
 	start_thread(philo);
+	wait_thread(philo);
 	//destroy_mutex(&state);
 	//pthread_mutex_destroy((*philo)->mutex_print);
 	//free(philo);
 	//free(state.mutex_fork);
-	pthread_exit(NULL);
+	//pthread_exit(NULL);
 	return (0);
 }
