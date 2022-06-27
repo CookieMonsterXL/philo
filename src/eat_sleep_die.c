@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/27 11:40:14 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/27 13:35:46 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,19 @@ int	eat(t_philo *philo)
 	int checker;
 	
 	lock(philo->state->mutex_fork[philo->philo_n]);
+	action_print(philo, "\t\thas fork\n");
 	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
+	action_print(philo, "\t\thas fork\n");
 	checker = check_die_timer(philo);
 	if (checker ==  0)
 	{
 		reset_die_timer(philo);
-		action_print(philo, "\t\tis eating\n");
+		action_print(philo, "\t\tis eating\n");			
+		set_meals(philo);
 		checker = timer(philo, philo->state->time_to_eat);
 	}
 
 	
-	// philo->meal_count++;
-	// if (philo->meal_count <= philo->state->meals_per_philo)
-	// {
-	// 	philo->state->total_meals_still_needed--;
-	// 	if (philo->state->total_meals_still_needed == 0)
-	// 	{
-	// 			lock(philo->state->mutex_someone_died);
-	// 			philo->state->someone_died = SELF_DIE;
-	// 			unlock(philo->state->mutex_someone_died);
-	// 	}
-		
-	// }
-
-	
-	//action_print(philo, "\thas fork\n");
 	unlock(philo->state->mutex_fork[philo->philo_n]);
 	unlock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
 	return (checker);
@@ -88,4 +76,33 @@ void	set_die_var(t_philo *philo)
 	lock(philo->state->mutex_someone_died);
 	philo->state->someone_died = SELF_DIE;
 	unlock(philo->state->mutex_someone_died);
+}
+
+int	check_done_eating(t_philo *philo)
+{
+	int checker;
+
+	checker = 0;
+	lock(philo->state->mutex_done_eating);
+	if (philo->state->done_eating == 1)
+		checker = 1;
+	unlock(philo->state->mutex_done_eating);
+	return (checker);
+}
+
+void	set_meals(t_philo *philo)
+{
+	if (philo->state->total_meals_still_needed != -1)
+	{
+		philo->meal_count++;
+		if (philo->meal_count <= philo->state->meals_per_philo)
+		{
+			lock(philo->state->mutex_done_eating);
+			philo->state->total_meals_still_needed--;
+			//printf("totoal meals still need in func= %d\n", philo->state->total_meals_still_needed); //DEBuG
+			if (philo->state->total_meals_still_needed == 0)
+				philo->state->done_eating = 1;
+			unlock(philo->state->mutex_done_eating);
+		}
+	}
 }

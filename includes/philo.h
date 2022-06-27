@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/27 12:04:07 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/27 13:32:33 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,17 @@ typedef struct s_state
     int					time_to_die; 		//		2
     int					time_to_eat;		//		3
     int					time_to_sleep;		//		4
-	//int					meals_per_philo;	//5
+	int					meals_per_philo;	//5
     int					number_of_forks;
-	//int					total_meals_still_needed;
+	int					total_meals_still_needed;
 	pthread_mutex_t		**mutex_fork;
 	bool				*bool_fork;
 	pthread_mutex_t		*mutex_print;
 	pthread_mutex_t		*mutex_die_print;
 	pthread_mutex_t		*mutex_someone_died;
+	pthread_mutex_t		*mutex_done_eating;
 	int					someone_died;
+	int					done_eating;
 	struct timeval		start_program_timeval;
 	long long			start_program_timer;
 	struct timeval		curr_program_timeval;
@@ -110,13 +112,13 @@ typedef struct s_philo
 	struct timeval		current_die_timeval;
 
 	int				curr_timestamp_print;
-//	int				meal_count;
+	int				meal_count;
 }	t_philo;
 
 //INIT
 void	init_philo(t_philo **philo, int index,
 			t_state *state);
-void	init_state(t_state *state, char **argv);
+void	init_state(t_state *state, char **argv, int argc);
 
 //utils
 int		error_msg(char *str);
@@ -140,6 +142,8 @@ int	die(t_philo *philo);
 
 void	set_die_var(t_philo *philo);
 int	check_other_dead(t_philo *philo);
+int	check_done_eating(t_philo *philo);
+void	set_meals(t_philo *philo);
 
 
 //TIMER

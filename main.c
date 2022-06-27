@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/27 12:22:23 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/27 13:30:39 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	*philo_thread_func(void *ptr)
 	while (1)
 	{
 		if (check_other_dead(philo) == OTHER_DIE)
+			return (NULL);
+		if (check_done_eating(philo) == 1)
 			return (NULL);
 		if (check_die_timer(philo) != 0)
 			return (NULL);
@@ -82,6 +84,7 @@ void	make_philo_arr(t_philo **philo, t_state *state)
 	state->mutex_print = make_mutex(state->mutex_print);
 	state->mutex_die_print = make_mutex(state->mutex_die_print);
 	state->mutex_someone_died = make_mutex(state->mutex_someone_died);
+	state->mutex_done_eating = make_mutex(state->mutex_done_eating);
 	while (i < state->number_of_philo)
 	{
 		init_philo(&philo[i], i, state);
@@ -95,9 +98,10 @@ int	main(int argc, char **argv)
 	t_philo			**philo;
 	t_state			state;
 
-	(void) argc;
+	if (argc < 5 || argc > 6)
+		error_msg("wrong number of arguments\n");
 	philo = malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
-	init_state(&state, argv);
+	init_state(&state, argv, argc);
 	make_philo_arr(philo, &state);
 	//philo_print(philo);
 	start_program_time(&state);

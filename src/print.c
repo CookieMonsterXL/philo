@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 17:02:20 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/27 10:42:34 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/27 13:15:47 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ int	action_print(t_philo *philo, char *str)
 	
 	lock(philo->state->mutex_print);
 	if (check_other_dead(philo) == OTHER_DIE)
+	{
+		unlock(philo->state->mutex_print);
+		return (0);
+	}
+	if (check_done_eating(philo) == 1)
 	{
 		unlock(philo->state->mutex_print);
 		return (0);

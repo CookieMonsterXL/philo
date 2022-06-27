@@ -6,13 +6,13 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/27 12:03:39 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/27 13:36:33 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	init_state(t_state *state, char **argv)
+void	init_state(t_state *state, char **argv, int argc)
 {
 	state->number_of_philo = ft_atoi(argv[1]);
 	state->number_of_forks = state->number_of_philo;
@@ -26,8 +26,14 @@ void	init_state(t_state *state, char **argv)
 	if (state->bool_fork == NULL)
 		error_msg("Error: Malloc\n");
 	state->someone_died = 0;
-	//state->meals_per_philo = 0;//ft_atoi(argv[5]);
-	//state->total_meals_still_needed = 0;//state->meals_per_philo * state->number_of_philo;
+	state->done_eating = 0;
+	if (argc == 6)
+	{
+		state->meals_per_philo = ft_atoi(argv[5]);
+		state->total_meals_still_needed = state->meals_per_philo * state->number_of_philo;
+	}
+	else
+		state->total_meals_still_needed = -1;
 }
 
 void	init_philo(t_philo **philo, int index, t_state *state)
