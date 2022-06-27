@@ -1,3 +1,28 @@
+➜  philo git:(no_tread_timer) ✗ ./philo 4 410 200 200
+0       1               has taken a fork
+0       1               has taken a fork
+0       1               is eating
+0       3               has taken a fork
+0       3               has taken a fork
+0       3               is eating
+200     1               DONE ETING
+200     1               is sleeping
+200     2               has taken a fork
+200     2               has taken a fork
+200     2               is eating
+200     0               has taken a fork
+200     0               has taken a fork
+200     0               is eating
+200     3               DONE ETING
+200     3               is sleeping
+416     2               DONE ETING
+417     1               died
+417     0               DONE ETING
+
+
+
+
+
 philo git:(master) ✗ ./philo 51 100 40 40
 1 ms Philo 10   has fork
 2 ms Philo 18   has fork

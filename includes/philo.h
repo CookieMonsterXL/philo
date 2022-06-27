@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/27 13:32:33 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/27 18:57:34 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # define	SELF_DIE	1
 # define	OTHER_DIE	2
 # define	TIME_ERR	10
+# define	LOCK_ERR	20
+
 
 
 // Colors
@@ -117,15 +119,15 @@ typedef struct s_philo
 
 //INIT
 void	init_philo(t_philo **philo, int index,
-			t_state *state);
+			t_state *state, int argc);
 void	init_state(t_state *state, char **argv, int argc);
 
 //utils
 int		error_msg(char *str);
 int		perror_msg(char *str);
 int		action_print(t_philo *philo, char *str);
-void	lock(pthread_mutex_t *key);
-void	unlock(pthread_mutex_t *key);
+int		lock(pthread_mutex_t *key);
+int		unlock(pthread_mutex_t *key);
 void	print_die(t_philo *philo);
 
 //MUTEX
@@ -140,10 +142,10 @@ int		eat_lefty(t_philo *philo);
 int		p_sleep(t_philo *philo);
 int	die(t_philo *philo);
 
-void	set_die_var(t_philo *philo);
+int	set_die_var(t_philo *philo);
 int	check_other_dead(t_philo *philo);
 int	check_done_eating(t_philo *philo);
-void	set_meals(t_philo *philo);
+int	set_meals(t_philo *philo);
 
 
 //TIMER

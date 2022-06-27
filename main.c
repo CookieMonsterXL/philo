@@ -1,30 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/27 13:30:39 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/27 19:48:53 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
-
-int	checker_action(t_philo *philo, int checker)
-{
-	if (checker == SELF_DIE)
-	{
-		checker = die(philo);
-		return (checker);
-	}
-	if (checker == OTHER_DIE)
-		return (checker);
-	if (checker == TIME_ERR)
-		return (checker); // checken
-	return (0);
-}
 
 void	*philo_thread_func(void *ptr)
 {
@@ -33,7 +19,7 @@ void	*philo_thread_func(void *ptr)
 
 	philo = (t_philo *)ptr;
 	if (philo->philo_n % 2 == 0)
-		usleep(200);
+		usleep(100);
 	reset_die_timer(philo);
 	while (1)
 	{
@@ -68,6 +54,11 @@ void	start_thread(t_philo **philo)
 	int	i;
 
 	i = 0;
+
+	if ((*philo)->state->number_of_philo == 1)
+	{
+		
+	}
 	while ((*philo)->state->number_of_philo > i)
 	{
 		pthread_create(&philo[i]->tid, NULL, philo_thread_func, (void *)philo[i]);
@@ -75,10 +66,9 @@ void	start_thread(t_philo **philo)
 	}
 }
 
-void	make_philo_arr(t_philo **philo, t_state *state)
+void	make_philo_arr(t_philo **philo, t_state *state, int argc)
 {
 	int	i;
-	//pthread_mutex_t	*mutex_print;
 
 	i = 0;
 	state->mutex_print = make_mutex(state->mutex_print);
@@ -87,7 +77,7 @@ void	make_philo_arr(t_philo **philo, t_state *state)
 	state->mutex_done_eating = make_mutex(state->mutex_done_eating);
 	while (i < state->number_of_philo)
 	{
-		init_philo(&philo[i], i, state);
+		init_philo(&philo[i], i, state, argc);
 		pthread_mutex_init(state->mutex_fork[i], NULL);
 		i++;
 	}
@@ -99,18 +89,26 @@ int	main(int argc, char **argv)
 	t_state			state;
 
 	if (argc < 5 || argc > 6)
-		error_msg("wrong number of arguments\n");
+	{
+		error_msg("Wrong number of arguments\n");
+		return (1);
+	}
+	if (ft_atoi(argv[1]) < 1 && ft_atoi(argv[1]) < 10000)
+	{
+		error_msg("To few or to many Philosophrs\n");
+		return (2);
+	}
 	philo = malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
+	if (philo == NULL)
+		return (3);
 	init_state(&state, argv, argc);
-	make_philo_arr(philo, &state);
-	//philo_print(philo);
+	make_philo_arr(philo, &state, argc);
 	start_program_time(&state);
 	start_thread(philo);
 	wait_thread(philo);
 	//destroy_mutex(&state);
 	//pthread_mutex_destroy((*philo)->mutex_print);
-	//free(philo);
+	free(philo);
 	//free(state.mutex_fork);
-	//pthread_exit(NULL);
 	return (0);
 }

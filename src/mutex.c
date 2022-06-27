@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 14:24:55 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/24 15:37:59 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/27 17:56:58 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,42 @@ int	destroy_mutex(t_state *state)
 	return (0);
 }
 
-void	lock(pthread_mutex_t *key)
+int	lock(pthread_mutex_t *key)
 {
 	int	error;
 
 	error = pthread_mutex_lock(key);
 	if (error == 0)
-		return ;
+		return (0);
 	else if (error == EINVAL)
+	{
 		error_msg("Error mutex lock: The value specified by mutex is invalid.\n");
+		return (EINVAL);
+	}
 	else if (error == EDEADLK)
+	{
 		error_msg("Error mutex lock: A deadlock would occur if the thread blocked waiting for mutex.\n");
+		return(EDEADLK);
+	}
+	return (0);
 }
 
-void	unlock(pthread_mutex_t *key)
+int	unlock(pthread_mutex_t *key)
 {
 	int	error;
 	
 	error = pthread_mutex_unlock(key);
 	if (error == 0)
-		return ;
+		return (0);
 	else if (error == EINVAL)
+	{
 		error_msg("Error mutex unlock: The value specified by mutex is invalid.\n");
+		return (EINVAL);
+	}
 	else if (error == EPERM)
+	{
 		error_msg("Error mutex unlock: The current thread does not hold a lock on mutex.\n");
+		return (EPERM);
+	}
+	return (0);
 }

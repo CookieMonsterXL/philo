@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   timer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/27 10:46:49 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   timer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
+/*   Updated: 2022/06/27 19:46:51 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	timer(t_philo *philo, long interval_time)
 {
+	int					checker;
 	struct timeval		curr_timeval;
 	struct timeval		start_timeval;
 	long long			curr_time;
@@ -28,16 +29,10 @@ int	timer(t_philo *philo, long interval_time)
 		usleep(500);
 		if (get_time(&curr_timeval, &curr_time))
 			return (TIME_ERR);
-		if (check_die_timer(philo) ==  SELF_DIE)
-			return (SELF_DIE);
+		checker = check_die_timer(philo);
+		if (checker !=  NOT_DEAD)
+			return (checker);
 	}
-	// lock(philo->state->mutex_someone_died);
-	// if (philo->state->someone_died == SELF_DIE && philo->is_dead == NOT_DEAD)
-	// {
-	// 	unlock(philo->state->mutex_someone_died);
-	// 	return (OTHER_DIE);
-	// }	
-	// unlock(philo->state->mutex_someone_died);
 	return (check_other_dead(philo));
 }
 
@@ -58,12 +53,8 @@ long	check_die_timer(t_philo *philo)
 	int checker;
 
 	checker = 0;
-	// checker = check_other_dead(philo);
-	// if (checker == OTHER_DIE)
-	// 	return (OTHER_DIE);
 	if (get_time(&philo->current_die_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
-	//printf("\nDIETIMER curr= %lli\n", philo->current_die_timer - philo->start_die_timer);
 	if (((philo->current_die_timer - philo->start_die_timer)) > philo->state->time_to_die * 1000)
 	{
 		checker = die(philo);
@@ -76,7 +67,6 @@ long	check_die_timer(t_philo *philo)
 int	reset_die_timer(t_philo *philo)
 {
 	get_time(&philo->start_die_timeval, &philo->start_die_timer);
-	//printf("\nDIETIMER RESET= %lli\n", philo->start_die_timer);
 	return (0);
 }
 
