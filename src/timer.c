@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   timer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/24 14:54:50 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   timer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/27 10:46:49 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ long	current_time_stamp_ms(t_philo *philo)
 {
 	if (get_time(&philo->state->curr_program_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
-	return ((philo->current_die_timer - philo->state->start_program_timer) / 100);
+	return ((philo->current_die_timer - philo->state->start_program_timer) / 1000);
 }
 
 int	start_program_time(t_state *state)
@@ -57,15 +57,14 @@ long	check_die_timer(t_philo *philo)
 {
 	int checker;
 
-	// if (check_other_dead(philo == OTHER_DIE))
+	checker = 0;
+	// checker = check_other_dead(philo);
+	// if (checker == OTHER_DIE)
 	// 	return (OTHER_DIE);
-	checker = check_other_dead(philo);
-	if (checker == OTHER_DIE)
-		return (OTHER_DIE);
 	if (get_time(&philo->current_die_timeval, &philo->current_die_timer))
 		return (TIME_ERR);
 	//printf("\nDIETIMER curr= %lli\n", philo->current_die_timer - philo->start_die_timer);
-	if (((philo->current_die_timer - philo->start_die_timer) / 1000) > philo->state->time_to_die)
+	if (((philo->current_die_timer - philo->start_die_timer)) > philo->state->time_to_die * 1000)
 	{
 		checker = die(philo);
 		return (checker);

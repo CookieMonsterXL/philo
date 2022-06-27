@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   init.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 14:23:39 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/23 18:52:44 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/27 12:03:39 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	init_state(t_state *state, char **argv)
 	if (state->bool_fork == NULL)
 		error_msg("Error: Malloc\n");
 	state->someone_died = 0;
+	//state->meals_per_philo = 0;//ft_atoi(argv[5]);
+	//state->total_meals_still_needed = 0;//state->meals_per_philo * state->number_of_philo;
 }
 
 void	init_philo(t_philo **philo, int index, t_state *state)
@@ -36,6 +38,7 @@ void	init_philo(t_philo **philo, int index, t_state *state)
 	(*philo)->is_dead = 0;
 	(*philo)->start_eating = 0;
 	(*philo)->reset_timer = 0;
+	//(*philo)->meal_count = 0;
 	(*philo)->state = state;
 	(*philo)->state->mutex_fork[index] = malloc(sizeof(pthread_mutex_t));
 	(*philo)->state->bool_fork[index] = true;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   eat_sleep_die.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 12:58:47 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/24 15:21:54 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   eat_sleep_die.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/27 11:40:14 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,25 @@ int	eat(t_philo *philo)
 		action_print(philo, "\t\tis eating\n");
 		checker = timer(philo, philo->state->time_to_eat);
 	}
+
+	
+	// philo->meal_count++;
+	// if (philo->meal_count <= philo->state->meals_per_philo)
+	// {
+	// 	philo->state->total_meals_still_needed--;
+	// 	if (philo->state->total_meals_still_needed == 0)
+	// 	{
+	// 			lock(philo->state->mutex_someone_died);
+	// 			philo->state->someone_died = SELF_DIE;
+	// 			unlock(philo->state->mutex_someone_died);
+	// 	}
+		
+	// }
+
+	
 	//action_print(philo, "\thas fork\n");
 	unlock(philo->state->mutex_fork[philo->philo_n]);
 	unlock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
-	// if (check_die_timer(philo) ==  SELF_DIE)
-	// 	return (SELF_DIE);
 	return (checker);
 }
 
@@ -42,8 +56,6 @@ int	p_sleep(t_philo *philo)
 		return (checker);
 	action_print(philo, "\t\tis sleeping\n");
 	checker = timer(philo, philo->state->time_to_sleep);
-	// if (check_die_timer(philo) ==  SELF_DIE)
-	// 	return (SELF_DIE);
 	return (checker);
 }
 

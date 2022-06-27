@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   philo.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/24 15:37:04 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/27 12:04:07 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ typedef struct s_state
     int					time_to_die; 		//		2
     int					time_to_eat;		//		3
     int					time_to_sleep;		//		4
-	int					number_of_times_each_philosopher_must_eat;	//5
+	//int					meals_per_philo;	//5
     int					number_of_forks;
+	//int					total_meals_still_needed;
 	pthread_mutex_t		**mutex_fork;
 	bool				*bool_fork;
 	pthread_mutex_t		*mutex_print;
@@ -109,6 +110,7 @@ typedef struct s_philo
 	struct timeval		current_die_timeval;
 
 	int				curr_timestamp_print;
+//	int				meal_count;
 }	t_philo;
 
 //INIT
