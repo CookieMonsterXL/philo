@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:45:40 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 17:54:32 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,49 +31,13 @@
 # define	TIME_ERR	10
 # define	LOCK_ERR	20
 
+//PRINT MSG
+# define EAT "\t\tis eating\n"
+# define SLEEP "\t\tis sleeping\n"
+# define THINK "\t\tis thinking\n"
+# define FORK "\t\thas taken a fork\n"
+# define DIED "\t\tdied\n"
 
-
-// Colors
-
-# define RESET "\e[0m"
-# define PINK "\e[0;38;5;199m"
-# define GREEN "\e[0;32m"
-# define BLUE "\e[0;34m"
-# define G_BLUE "\e[0;38;5;24m"
-# define B_BLUE "\e[1;34m"
-# define G_CYAN "\e[0;38;5;44m"
-
-/*
-** Error messages
-*/
-# define NUM_ARGS "ERROR: The number of argments must be 4 or 5"
-# define ARG1 "ERROR: There is a mistake in number of philosophers"
-# define ARG2 "ERROR: There is a mistake in time to die"
-# define ARG3 "ERROR: There is a mistake in time to eat"
-# define ARG4 "ERROR: There is a mistake in time to sleep"
-# define ARG5 "ERROR: There is a mistake in number of times each \
-philosopher must eat"
-
-/*
-** Help message
-*/
-# define HELP "The number of argments must be 4 or 5:\n\
-- arg1 number of philosophers\n\
-- arg2 time to die\n\
-- arg3 time to eat\n\
-- arg4 time to sleep\n\
-- arg5 number of times each philosopher must eat (optional)"
-
-/*
-** Routines messages
-*/
-# define EAT "is eating"
-# define SLEEP "is sleeping"
-# define THINK "is thinking"
-# define FORK "has taken a fork"
-# define DIED "died ☠️"
-
-//struct	t_state;
 typedef struct s_state
 {
     int 				number_of_philo; 	//Arg	1

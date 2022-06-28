@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 17:02:20 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/27 19:58:02 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 17:52:43 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_die(t_philo *philo)
 	ft_putnbr_fd(curr_time, 1);
 	ft_putstr_fd("\t", 1);
 	ft_putnbr_fd(philo->philo_n, 1);
-	ft_putstr_fd("\t\tdied\n", 1);
+	ft_putstr_fd(DIED, 1);
 }
 
 int	action_print(t_philo *philo, char *str)
