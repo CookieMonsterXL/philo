@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 18:33:52 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 18:40:07 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int all_free(t_philo **philo, t_state *state)
 		i++;
 	}
 	free(philo);
+	free(state->bool_fork);
 	return (0);
 }
 
