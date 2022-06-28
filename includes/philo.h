@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/28 11:48:16 by tbouma           ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   philo.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
+/*   Updated: 2022/06/28 17:45:40 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,11 @@ typedef struct s_state
     int					time_to_eat;		//		3
     int					time_to_sleep;		//		4
 	int					meals_per_philo;	//5
-	// int					time_to_think;
     int					number_of_forks;
 	int					total_meals_still_needed;
 	pthread_mutex_t		**mutex_fork;
 	bool				*bool_fork;
 	pthread_mutex_t		*mutex_print;
-	pthread_mutex_t		*mutex_die_print;
 	pthread_mutex_t		*mutex_someone_died;
 	pthread_mutex_t		*mutex_done_eating;
 	int					someone_died;
@@ -100,74 +98,68 @@ typedef struct s_state
 
 typedef struct s_philo
 {
-	int				philo_n;
-	int				spoon;
-	int				is_dead;
-	int				start_eating;
-	int				reset_timer;
-	pthread_t		tid;
-	t_state			*state;
-	pthread_mutex_t		*mutex_eat;
-	//pthread_mutex_t	*mutex_print;
-	long long		start_die_timer;
-	long long		current_die_timer;
+	int					philo_n;
+	int					is_dead;
+	pthread_t			tid;
+	t_state				*state;
+	long long			start_die_timer;
+	long long			current_die_timer;
 	struct timeval		start_die_timeval;
 	struct timeval		current_die_timeval;
-
-	int				curr_timestamp_print;
-	int				meal_count;
+	int					meal_count;
 }	t_philo;
 
 //INIT
-void	init_philo(t_philo **philo, int index,
-			t_state *state, int argc);
-void	init_state(t_state *state, char **argv, int argc);
-int init_bool(t_state *state);
+void			init_philo(t_philo **philo, int index,
+				t_state *state, int argc);
+void			init_state(t_state *state, char **argv, int argc);
+int 			init_bool(t_state *state);
+void			init_philo_arr(t_philo **philo, t_state *state, int argc);
 
-//utils
-int		error_msg(char *str);
-int		perror_msg(char *str);
-int		action_print(t_philo *philo, char *str);
-int		lock(pthread_mutex_t *key);
-int		unlock(pthread_mutex_t *key);
-void	print_die(t_philo *philo);
+//THREADS
+void			*philo_thread_func(void *ptr);
+void			wait_thread(t_philo **philo);
+void			start_thread(t_philo **philo);
 
-int	check_fork_lock_1(t_philo *philo);
-int	check_fork_lock_2(t_philo *philo);
-int fork_unlock_1(t_philo *philo);
-int fork_unlock_2(t_philo *philo);
+//PRINT
+int				error_msg(char *str);
+int				perror_msg(char *str);
+int				action_print(t_philo *philo, char *str);
+void			print_die(t_philo *philo);
 
-//MUTEX
+//FORK LOCK
+int				fork_lock_1(t_philo *philo);
+int				fork_lock_2(t_philo *philo);
+int 			fork_unlock_1(t_philo *philo);
+int				fork_unlock_2(t_philo *philo);
+
+//MUTEX LOCK
+int				lock(pthread_mutex_t *key);
+int				unlock(pthread_mutex_t *key);
 pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex);
 pthread_mutex_t	*make_print_mutex(void);
 pthread_mutex_t	*make_dead_mutex(void);
 int				destroy_mutex(t_state *state);
 
 //EAT SLEEP REPEAT
-int		eat(t_philo *philo);
-int		eat_lefty(t_philo *philo);
-int		p_sleep(t_philo *philo);
-int	die(t_philo *philo);
-int	think(t_philo *philo);
+int				eat(t_philo *philo);
+int				p_sleep(t_philo *philo);
+int				die(t_philo *philo);
 
-int	set_die_var(t_philo *philo);
-int	check_other_dead(t_philo *philo);
-int	check_done_eating(t_philo *philo);
-int	set_meals(t_philo *philo);
-
+//SET CHECK VAR
+int				set_die_var(t_philo *philo);
+int				check_other_dead(t_philo *philo);
+int				check_done_eating(t_philo *philo);
+int				set_meals(t_philo *philo);
+long			check_die_timer(t_philo *philo);
 
 //TIMER
-int		start_program_time(t_state *state);
-long	current_time_stamp_ms(t_philo *philo);
-int		timer(t_philo *philo, long interval_time);
-int		d_timer(t_philo *philo, long interval_time);
-
-long		check_die_timer(t_philo *philo);
-int			reset_die_timer(t_philo *philo);
-long long	make_time(struct timeval	*timeval);
-int			get_time(struct timeval	*timeval, long long *timestamp);
-
-//TESTS
-void	philo_print(t_philo **philo);
+int				timer(t_philo *philo, long interval_time);
+int				start_program_time(t_state *state);
+int				reset_die_timer(t_philo *philo);
+//TIMER2
+long			current_time_stamp_ms(t_philo *philo);
+long long		make_time(struct timeval	*timeval);
+int				get_time(struct timeval	*timeval, long long *timestamp);
 
 #endif
