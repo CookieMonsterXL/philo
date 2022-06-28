@@ -6,12 +6,11 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:04:24 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 17:56:56 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
 
 int	main(int argc, char **argv)
 {
