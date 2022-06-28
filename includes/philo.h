@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   philo.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/27 18:57:34 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/28 11:48:16 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_state
     int					time_to_eat;		//		3
     int					time_to_sleep;		//		4
 	int					meals_per_philo;	//5
+	// int					time_to_think;
     int					number_of_forks;
 	int					total_meals_still_needed;
 	pthread_mutex_t		**mutex_fork;
@@ -121,6 +122,7 @@ typedef struct s_philo
 void	init_philo(t_philo **philo, int index,
 			t_state *state, int argc);
 void	init_state(t_state *state, char **argv, int argc);
+int init_bool(t_state *state);
 
 //utils
 int		error_msg(char *str);
@@ -129,6 +131,11 @@ int		action_print(t_philo *philo, char *str);
 int		lock(pthread_mutex_t *key);
 int		unlock(pthread_mutex_t *key);
 void	print_die(t_philo *philo);
+
+int	check_fork_lock_1(t_philo *philo);
+int	check_fork_lock_2(t_philo *philo);
+int fork_unlock_1(t_philo *philo);
+int fork_unlock_2(t_philo *philo);
 
 //MUTEX
 pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex);
@@ -141,6 +148,7 @@ int		eat(t_philo *philo);
 int		eat_lefty(t_philo *philo);
 int		p_sleep(t_philo *philo);
 int	die(t_philo *philo);
+int	think(t_philo *philo);
 
 int	set_die_var(t_philo *philo);
 int	check_other_dead(t_philo *philo);
