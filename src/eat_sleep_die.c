@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/28 11:47:12 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/28 11:52:33 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,16 +79,17 @@ int	eat(t_philo *philo)
 {
 	int checker;
 	
-	lock(philo->state->mutex_fork[philo->philo_n]);
+	//lock(philo->state->mutex_fork[philo->philo_n]);
+	check_fork_lock_1(philo);
 	action_print(philo, "\t\thas taken a fork\n");
-	checker = check_die_timer(philo);
 	if (philo->state->number_of_philo == 1)
 	{
 		checker = timer(philo, philo->state->time_to_die + 2);
 		unlock(philo->state->mutex_fork[philo->philo_n]);
 		return (0);
 	}
-	lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
+	//lock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
+	check_fork_lock_2(philo);
 	action_print(philo, "\t\thas taken a fork\n");
 	checker = check_die_timer(philo);
 	if (checker ==  0)
@@ -99,11 +100,10 @@ int	eat(t_philo *philo)
 			set_meals(philo);
 		checker = timer(philo, philo->state->time_to_eat);
 	}
-
-	
-	unlock(philo->state->mutex_fork[philo->philo_n]);
-	unlock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
-	//action_print(philo, "\t\tDONE EATING\n");//debug
+	fork_unlock_1(philo);
+	fork_unlock_2(philo);
+	// unlock(philo->state->mutex_fork[philo->philo_n]);
+	// unlock(philo->state->mutex_fork[(philo->philo_n + 1) % philo->state->number_of_philo]);
 	return (checker);
 }
 
