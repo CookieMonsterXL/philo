@@ -6,11 +6,43 @@
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:56:56 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 18:33:52 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+static int	mutex_free(t_state *state)
+{
+	int i;
+
+	i = 0;
+	while (i < state->number_of_philo)
+	{
+		free(state->mutex_fork[i]);
+		i++;
+	}
+	free(state->mutex_fork);
+	free(state->mutex_done_eating);
+	free(state->mutex_print);
+	free(state->mutex_someone_died);
+	return (0);
+}
+
+static int all_free(t_philo **philo, t_state *state)
+{
+	int	i;
+	
+	i = 0;
+	mutex_free(state);
+	while (i < state->number_of_philo)
+	{
+		free(philo[i]);
+		i++;
+	}
+	free(philo);
+	return (0);
+}
 
 int	main(int argc, char **argv)
 {
@@ -35,9 +67,7 @@ int	main(int argc, char **argv)
 	start_program_time(&state);
 	start_thread(philo);
 	wait_thread(philo);
-	//destroy_mutex(&state);
-	//pthread_mutex_destroy((*philo)->mutex_print);
-	free(philo);
-	//free(state.mutex_fork);
+	destroy_mutex(&state);
+	all_free(philo, &state);
 	return (0);
 }

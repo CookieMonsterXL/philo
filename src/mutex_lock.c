@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mutex.c                                            :+:    :+:            */
+/*   mutex_lock.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: tbouma <tbouma@student.42.fr>                +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/06/20 14:24:55 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/27 17:56:58 by tiemen        ########   odam.nl         */
+/*   Updated: 2022/06/28 18:22:03 by tiemen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ int	destroy_mutex(t_state *state)
 		pthread_mutex_destroy(state->mutex_fork[i]);
 		i++;
 	}
+	pthread_mutex_destroy(state->mutex_print);
+	pthread_mutex_destroy(state->mutex_someone_died);
+	pthread_mutex_destroy(state->mutex_done_eating);
 	return (0);
 }
 
