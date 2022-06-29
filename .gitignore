@@ -2,3 +2,4 @@
 obj/
 philo
 includes/libft/libft.a
+philosopher_tester/
