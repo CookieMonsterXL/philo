@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   timer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/20 17:00:37 by tbouma        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:34:54 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   timer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
+/*   Updated: 2022/06/29 10:53:05 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	timer(t_philo *philo, long interval_time)
 		if (get_time(&curr_timeval, &curr_time))
 			return (TIME_ERR);
 		checker = check_die_timer(philo);
-		if (checker !=  NOT_DEAD)
+		if (checker != NOT_DEAD)
 			return (checker);
 	}
 	return (check_other_dead(philo));
@@ -38,7 +38,8 @@ int	timer(t_philo *philo, long interval_time)
 
 int	start_program_time(t_state *state)
 {
-	return (get_time(&state->start_program_timeval, &state->start_program_timer));
+	return (get_time(&state->start_program_timeval,
+			&state->start_program_timer));
 }
 
 int	reset_die_timer(t_philo *philo)
@@ -46,5 +47,3 @@ int	reset_die_timer(t_philo *philo)
 	get_time(&philo->start_die_timeval, &philo->start_die_timer);
 	return (0);
 }
-
-

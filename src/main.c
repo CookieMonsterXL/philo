@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/01 19:26:22 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 18:40:07 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/29 12:44:56 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	mutex_free(t_state *state)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < state->number_of_philo)
@@ -29,10 +29,10 @@ static int	mutex_free(t_state *state)
 	return (0);
 }
 
-static int all_free(t_philo **philo, t_state *state)
+static int	all_free(t_philo **philo, t_state *state)
 {
 	int	i;
-	
+
 	i = 0;
 	mutex_free(state);
 	while (i < state->number_of_philo)
@@ -45,11 +45,8 @@ static int all_free(t_philo **philo, t_state *state)
 	return (0);
 }
 
-int	main(int argc, char **argv)
+static int	main2(int argc, char **argv)
 {
-	t_philo			**philo;
-	t_state			state;
-
 	if (argc < 5 || argc > 6)
 	{
 		error_msg("Wrong number of arguments\n");
@@ -60,11 +57,25 @@ int	main(int argc, char **argv)
 		error_msg("To few or to many Philosophrs\n");
 		return (2);
 	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	t_philo			**philo;
+	t_state			state;
+
+	if (main2(argc, argv))
+		return (1);
 	philo = malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
 	if (philo == NULL)
 		return (3);
-	init_state(&state, argv, argc);
-	init_philo_arr(philo, &state, argc);
+	if (init_state(philo, &state, argv, argc))
+	{
+		error_msg("Error: Malloc or mutex error.\n");
+		all_free(philo, &state);
+		return (1);
+	}
 	start_program_time(&state);
 	start_thread(philo);
 	wait_thread(philo);

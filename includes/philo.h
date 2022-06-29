@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   philo.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tbouma <tbouma@student.42.fr>                +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/16 13:59:02 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:54:32 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/29 13:02:53 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # include <stdbool.h>
 
 //FUNC RETURN VALUES
-# define	NOT_DEAD	0
-# define	SELF_DIE	1
-# define	OTHER_DIE	2
-# define	TIME_ERR	10
-# define	LOCK_ERR	20
+# define NOT_DEAD 0
+# define SELF_DIE 1
+# define OTHER_DIE 2
+# define TIME_ERR 10
+# define LOCK_ERR 20
+# define MALLOC_ERR 30
+# define ERR 40
 
 //PRINT MSG
 # define EAT "\t\tis eating\n"
@@ -40,12 +42,12 @@
 
 typedef struct s_state
 {
-    int 				number_of_philo; 	//Arg	1
-    int					time_to_die; 		//		2
-    int					time_to_eat;		//		3
-    int					time_to_sleep;		//		4
-	int					meals_per_philo;	//5
-    int					number_of_forks;
+	int					number_of_philo;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	int					meals_per_philo;
+	int					number_of_forks;
 	int					total_meals_still_needed;
 	pthread_mutex_t		**mutex_fork;
 	bool				*bool_fork;
@@ -74,11 +76,12 @@ typedef struct s_philo
 }	t_philo;
 
 //INIT
-void			init_philo(t_philo **philo, int index,
-				t_state *state, int argc);
-void			init_state(t_state *state, char **argv, int argc);
-int 			init_bool(t_state *state);
-void			init_philo_arr(t_philo **philo, t_state *state, int argc);
+int				init_philo(t_philo **philo, int index,
+					t_state *state, int argc);
+int				init_state(t_philo **philo, t_state *state,
+					char **argv, int argc);
+int				init_bool(t_state *state);
+int				init_philo_arr(t_philo **philo, t_state *state, int argc);
 
 //THREADS
 void			*philo_thread_func(void *ptr);
@@ -94,13 +97,11 @@ void			print_die(t_philo *philo);
 //FORK LOCK
 int				fork_lock_1(t_philo *philo);
 int				fork_lock_2(t_philo *philo);
-int 			fork_unlock_1(t_philo *philo);
+int				fork_unlock_1(t_philo *philo);
 int				fork_unlock_2(t_philo *philo);
 
 //MUTEX LOCK
-int				lock(pthread_mutex_t *key);
-int				unlock(pthread_mutex_t *key);
-pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex);
+pthread_mutex_t	*make_mutex(pthread_mutex_t *mutex, int *checker);
 pthread_mutex_t	*make_print_mutex(void);
 pthread_mutex_t	*make_dead_mutex(void);
 int				destroy_mutex(t_state *state);
@@ -123,7 +124,7 @@ int				start_program_time(t_state *state);
 int				reset_die_timer(t_philo *philo);
 //TIMER2
 long			current_time_stamp_ms(t_philo *philo);
-long long		make_time(struct timeval	*timeval);
-int				get_time(struct timeval	*timeval, long long *timestamp);
+long long		make_time(struct timeval *timeval);
+int				get_time(struct timeval *timeval, long long *timestamp);
 
 #endif

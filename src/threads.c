@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   threads.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: tiemen <tiemen@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/06/28 17:04:05 by tiemen        #+#    #+#                 */
-/*   Updated: 2022/06/28 17:28:58 by tiemen        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   threads.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/28 17:04:05 by tiemen            #+#    #+#             */
+/*   Updated: 2022/06/29 11:04:38 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	*philo_thread_func(void *ptr)
 {
-	//int				checker;
 	t_philo			*philo;
 
 	philo = (t_philo *)ptr;
@@ -54,13 +53,10 @@ void	start_thread(t_philo **philo)
 	int	i;
 
 	i = 0;
-	if ((*philo)->state->number_of_philo == 1)
-	{
-		
-	}
 	while ((*philo)->state->number_of_philo > i)
 	{
-		pthread_create(&philo[i]->tid, NULL, philo_thread_func, (void *)philo[i]);
+		pthread_create(&philo[i]->tid, NULL,
+			philo_thread_func, (void *)philo[i]);
 		i++;
 	}
 }
