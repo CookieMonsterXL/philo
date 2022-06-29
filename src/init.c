@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/29 13:03:10 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/29 18:21:19 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int	init_bool(t_state *state)
 
 int	init_philo(t_philo **philo, int index, t_state *state, int argc)
 {
+	int	checker;
+
+	checker = 0;
 	*philo = malloc(sizeof(t_philo));
 	if (*philo == NULL)
 		return (MALLOC_ERR);

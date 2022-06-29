@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 17:02:20 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/29 12:50:31 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/29 15:39:40 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_die(t_philo *philo)
 	curr_time = current_time_stamp_ms(philo);
 	ft_putnbr_fd(curr_time, 1);
 	ft_putstr_fd("\t", 1);
-	ft_putnbr_fd(philo->philo_n, 1);
+	ft_putnbr_fd(philo->philo_n + 1, 1);
 	ft_putstr_fd(DIED, 1);
 }
 
@@ -47,7 +47,7 @@ int	action_print(t_philo *philo, char *str)
 	curr_time = current_time_stamp_ms(philo);
 	ft_putnbr_fd(curr_time, 1);
 	ft_putstr_fd("\t", 1);
-	ft_putnbr_fd(philo->philo_n, 1);
+	ft_putnbr_fd(philo->philo_n + 1, 1);
 	ft_putstr_fd(str, 1);
 	pthread_mutex_unlock(philo->state->mutex_print);
 	return (0);
