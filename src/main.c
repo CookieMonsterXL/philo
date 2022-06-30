@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 12:26:18 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 13:49:19 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	mutex_free(t_state *state)
 	return (0);
 }
 
-static int	all_free(t_philo **philo, t_state *state)
+int	all_free(t_philo **philo, t_state *state)
 {
 	int	i;
 
@@ -62,19 +62,17 @@ static int	main2(int argc, char **argv)
 
 static int	main3(t_state *state, t_philo **philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (start_thread(philo))
 	{
 		error_msg("Error: Tread error.\n");
-		all_free(philo, state);
 		return (1);
 	}
 	if (wait_thread(philo))
 	{
 		error_msg("Error: Tread error.\n");
-		all_free(philo, state);
 		return (1);
 	}
 	while (i < state->number_of_philo)
@@ -102,12 +100,14 @@ int	main(int argc, char **argv)
 	if (init_state(philo, &state, argv, argc))
 	{
 		error_msg("Error: Malloc or mutex error.\n");
+		destroy_mutex(&state);
 		all_free(philo, &state);
 		return (1);
 	}
-	if (start_program_time(philo[0]))
+	if (start_program_time(philo))
 	{
 		error_msg("Error: Time error.\n");
+		destroy_mutex(&state);
 		all_free(philo, &state);
 		return (1);
 	}

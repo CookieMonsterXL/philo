@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 12:27:29 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 13:44:01 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,14 @@ long			check_die_timer(t_philo *philo);
 
 //TIMER
 int				timer(t_philo *philo, long interval_time);
-int				start_program_time(t_philo *philo);
+int				start_program_time(t_philo **philo);
 int				reset_die_timer(t_philo *philo);
 //TIMER2
 long			current_time_stamp_ms(t_philo *philo);
 long long		make_time(struct timeval *timeval);
 int				get_time(struct timeval *timeval, long long *timestamp, t_philo *philo);
+
+//FREE_DESTROY
+int	all_free(t_philo **philo, t_state *state);
 
 #endif

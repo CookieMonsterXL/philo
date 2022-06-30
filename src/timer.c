@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 17:00:37 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/30 12:30:33 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 13:53:02 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,27 @@ int	timer(t_philo *philo, long interval_time)
 	long long			curr_time;
 	long long			start_time;
 
-	if (get_time(&start_timeval, &start_time, philo))
-		return (TIME_ERR);
-	if (get_time(&curr_timeval, &curr_time, philo))
-		return (TIME_ERR);
+	get_time(&start_timeval, &start_time, philo);
+	get_time(&curr_timeval, &curr_time, philo);
 	while (curr_time - start_time < interval_time * 1000)
 	{
 		usleep(500);
-		if (get_time(&curr_timeval, &curr_time, philo))
-			return (TIME_ERR);
+		get_time(&curr_timeval, &curr_time, philo);
 		checker = check_die_timer(philo);
-		if (philo->err != 0)
-			return (TIME_ERR);
 		if (checker != NOT_DEAD)
 			return (checker);
 	}
 	return (check_other_dead(philo));
 }
 
-int	start_program_time(t_philo *philo)
+int	start_program_time(t_philo **philo)
 {
-	return (get_time(&philo->state->start_program_timeval,
-			&philo->state->start_program_timer, philo));
+	return (get_time(&philo[0]->state->start_program_timeval,
+			&philo[0]->state->start_program_timer, philo[0]));
 }
 
 int	reset_die_timer(t_philo *philo)
 {
-	if (get_time(&philo->start_die_timeval, &philo->start_die_timer, philo))
-		return (TIME_ERR);
+	get_time(&philo->start_die_timeval, &philo->start_die_timer, philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:04:05 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 12:13:43 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 13:24:01 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	wait_thread(t_philo **philo)
 	i = 0;
 	while ((*philo)->state->number_of_philo > i)
 	{//PROTECT
-		if(pthread_join(philo[i]->tid, NULL))
+		if (pthread_join(philo[i]->tid, NULL))
 			return (ERR);
 		i++;
 	}
