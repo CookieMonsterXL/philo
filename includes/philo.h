@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 13:44:01 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 14:25:32 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ int				get_time(struct timeval *timeval, long long *timestamp, t_philo *philo);
 
 //FREE_DESTROY
 int	all_free(t_philo **philo, t_state *state);
+
+int	check_input(int argc, char **argv);
 
 #endif

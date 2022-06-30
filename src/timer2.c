@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:34:58 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 12:29:14 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 14:14:41 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 long	current_time_stamp_ms(t_philo *philo)
 {
-	if (get_time(&philo->state->curr_program_timeval,
-			&philo->current_die_timer, philo))
-		return (TIME_ERR);
+	get_time(&philo->state->curr_program_timeval,
+			&philo->current_die_timer, philo);
 	return ((philo->current_die_timer
 			- philo->state->start_program_timer) / 1000);
 }

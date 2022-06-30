@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 13:49:19 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 14:29:35 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,7 @@ int	all_free(t_philo **philo, t_state *state)
 	return (0);
 }
 
-static int	main2(int argc, char **argv)
-{
-	if (argc < 5 || argc > 6)
-	{
-		error_msg("Wrong number of arguments\n");
-		return (1);
-	}
-	if (ft_atoi(argv[1]) < 1 && ft_atoi(argv[1]) < 10000)
-	{
-		error_msg("To few or to many Philosophrs\n");
-		return (2);
-	}
-	return (0);
-}
-
-static int	main3(t_state *state, t_philo **philo)
+static int	main2(t_state *state, t_philo **philo)
 {
 	int	i;
 
@@ -92,7 +77,7 @@ int	main(int argc, char **argv)
 	t_philo			**philo;
 	t_state			state;
 
-	if (main2(argc, argv))
+	if (check_input(argc, argv))
 		return (1);
 	philo = malloc(sizeof(t_philo *) * ft_atoi(argv[1]));
 	if (philo == NULL)
@@ -104,14 +89,8 @@ int	main(int argc, char **argv)
 		all_free(philo, &state);
 		return (1);
 	}
-	if (start_program_time(philo))
-	{
-		error_msg("Error: Time error.\n");
-		destroy_mutex(&state);
-		all_free(philo, &state);
-		return (1);
-	}
-	main3(&state, philo);
+	start_program_time(philo);
+	main2(&state, philo);
 	destroy_mutex(&state);
 	all_free(philo, &state);
 	return (0);
