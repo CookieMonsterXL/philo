@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/29 13:02:53 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 12:27:29 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_philo
 	struct timeval		start_die_timeval;
 	struct timeval		current_die_timeval;
 	int					meal_count;
+	int					err;
 }	t_philo;
 
 //INIT
@@ -85,14 +86,14 @@ int				init_philo_arr(t_philo **philo, t_state *state, int argc);
 
 //THREADS
 void			*philo_thread_func(void *ptr);
-void			wait_thread(t_philo **philo);
-void			start_thread(t_philo **philo);
+int				wait_thread(t_philo **philo);
+int				start_thread(t_philo **philo);
 
 //PRINT
 int				error_msg(char *str);
 int				perror_msg(char *str);
 int				action_print(t_philo *philo, char *str);
-void			print_die(t_philo *philo);
+int				print_die(t_philo *philo);
 
 //FORK LOCK
 int				fork_lock_1(t_philo *philo);
@@ -120,11 +121,11 @@ long			check_die_timer(t_philo *philo);
 
 //TIMER
 int				timer(t_philo *philo, long interval_time);
-int				start_program_time(t_state *state);
+int				start_program_time(t_philo *philo);
 int				reset_die_timer(t_philo *philo);
 //TIMER2
 long			current_time_stamp_ms(t_philo *philo);
 long long		make_time(struct timeval *timeval);
-int				get_time(struct timeval *timeval, long long *timestamp);
+int				get_time(struct timeval *timeval, long long *timestamp, t_philo *philo);
 
 #endif

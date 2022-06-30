@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:04:05 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/29 11:04:38 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 12:13:43 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	*philo_thread_func(void *ptr)
 	philo = (t_philo *)ptr;
 	if (philo->philo_n % 2 == 0)
 		usleep(500);
-	reset_die_timer(philo);
+	if (reset_die_timer(philo))
+		return (NULL);
 	while (1)
 	{
 		if (check_other_dead(philo) == OTHER_DIE)
@@ -32,31 +33,37 @@ void	*philo_thread_func(void *ptr)
 			return (NULL);
 		if (p_sleep(philo) != 0)
 			return (NULL);
+		if (philo->err != 0)
+			return (NULL);
 	}
 	return (NULL);
 }
 
-void	wait_thread(t_philo **philo)
+int	wait_thread(t_philo **philo)
 {
 	int	i;
 
 	i = 0;
 	while ((*philo)->state->number_of_philo > i)
-	{
-		pthread_join(philo[i]->tid, NULL);
+	{//PROTECT
+		if(pthread_join(philo[i]->tid, NULL))
+			return (ERR);
 		i++;
 	}
+	return (0);
 }
 
-void	start_thread(t_philo **philo)
+int	start_thread(t_philo **philo)
 {
 	int	i;
 
 	i = 0;
 	while ((*philo)->state->number_of_philo > i)
 	{
-		pthread_create(&philo[i]->tid, NULL,
-			philo_thread_func, (void *)philo[i]);
+		if (pthread_create(&philo[i]->tid, NULL,
+				philo_thread_func, (void *)philo[i]))
+			return (ERR);
 		i++;
 	}
+	return (0);
 }

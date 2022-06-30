@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:24:55 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/29 13:01:40 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 11:24:53 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	destroy_mutex(t_state *state)
 	{
 		pthread_mutex_destroy(state->mutex_fork[i]);
 		i++;
-	}
+	} //NEEDS TO BE PROTECTED
 	pthread_mutex_destroy(state->mutex_print);
 	pthread_mutex_destroy(state->mutex_someone_died);
 	pthread_mutex_destroy(state->mutex_done_eating);

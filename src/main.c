@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:26:22 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/29 12:44:56 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 12:26:18 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,35 @@ static int	main2(int argc, char **argv)
 	return (0);
 }
 
+static int	main3(t_state *state, t_philo **philo)
+{
+	int i;
+
+	i = 0;
+	if (start_thread(philo))
+	{
+		error_msg("Error: Tread error.\n");
+		all_free(philo, state);
+		return (1);
+	}
+	if (wait_thread(philo))
+	{
+		error_msg("Error: Tread error.\n");
+		all_free(philo, state);
+		return (1);
+	}
+	while (i < state->number_of_philo)
+	{
+		if ((*philo)->err != 0)
+		{
+			error_msg("Error; Philo tread has error.");
+			break ;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo			**philo;
@@ -76,10 +105,16 @@ int	main(int argc, char **argv)
 		all_free(philo, &state);
 		return (1);
 	}
-	start_program_time(&state);
-	start_thread(philo);
-	wait_thread(philo);
+	if (start_program_time(philo[0]))
+	{
+		error_msg("Error: Time error.\n");
+		all_free(philo, &state);
+		return (1);
+	}
+	main3(&state, philo);
 	destroy_mutex(&state);
 	all_free(philo, &state);
 	return (0);
 }
+
+//system("leaks philo");

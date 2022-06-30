@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 17:34:58 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/29 12:02:55 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/06/30 12:29:14 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,23 @@
 
 long	current_time_stamp_ms(t_philo *philo)
 {
-	get_time(&philo->state->curr_program_timeval,
-		&philo->current_die_timer);
+	if (get_time(&philo->state->curr_program_timeval,
+			&philo->current_die_timer, philo))
+		return (TIME_ERR);
 	return ((philo->current_die_timer
 			- philo->state->start_program_timer) / 1000);
 }
 
-int	get_time(struct timeval *timeval, long long *timestamp)
+int	get_time(struct timeval *timeval, long long *timestamp, t_philo *philo)
 {
-	gettimeofday(timeval, NULL);
+	if (gettimeofday(timeval, NULL))
+	{
+		philo->err = TIME_ERR;
+		pthread_mutex_lock(philo->state->mutex_someone_died);
+		philo->state->someone_died = 1;
+		pthread_mutex_unlock(philo->state->mutex_someone_died);
+		return (TIME_ERR);
+	}
 	*timestamp = make_time(timeval);
 	return (0);
 }
