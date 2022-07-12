@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/07/12 11:04:25 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/12 13:56:05 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 # define PHILO_H
 
 # include <pthread.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <unistd.h>
 # include <sys/time.h>
 # include <unistd.h>
 # include <errno.h>
