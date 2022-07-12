@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 11:25:29 by tbouma            #+#    #+#             */
-/*   Updated: 2022/05/27 14:55:54 by tbouma           ###   ########.fr       */
+/*   Created: 2022/07/12 10:34:30 by tbouma            #+#    #+#             */
+/*   Updated: 2022/07/12 11:05:33 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/philo.h"
 
 static int	atoi_h(long long num_l, int minplus)
 {
@@ -48,16 +48,13 @@ int	ft_atoi(const char *str)
 	return (num);
 }
 
-// int main(void)
-// {
-// 	char string1[20] = "123479345";
-// 	char string2[20] = "tiemen1";
-// 	int num1;
-// 	int num2;
+int	ft_isspace(char c)
+{
+	return ((c == ' ' || c == '\n' || c == '\t'
+			|| c == '\v' || c == '\r' || c == '\f'));
+}
 
-// 	num1 = ft_atoi(string1);
-// 	num2 = ft_atoi(string2);
-// 	printf("num1= %d\n", num1);
-// 	printf("num2= %d\n", num2);
-
-// }
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}

@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 17:02:20 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/30 13:53:41 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/12 11:04:18 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 int	error_msg(char *str)
 {
 	ft_putstr_fd(str, 2);
-	return (0);
-}
-
-int	perror_msg(char *str)
-{
-	perror(str);
 	return (0);
 }
 

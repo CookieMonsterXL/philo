@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 14:25:32 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/12 11:04:25 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
-# include "libft/libft.h"
 # include <sys/time.h>
 # include <unistd.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <limits.h>
 
 //FUNC RETURN VALUES
 # define NOT_DEAD 0
@@ -73,7 +73,6 @@ typedef struct s_philo
 	struct timeval		start_die_timeval;
 	struct timeval		current_die_timeval;
 	int					meal_count;
-	int					err;
 }	t_philo;
 
 //INIT
@@ -91,7 +90,6 @@ int				start_thread(t_philo **philo);
 
 //PRINT
 int				error_msg(char *str);
-int				perror_msg(char *str);
 int				action_print(t_philo *philo, char *str);
 int				print_die(t_philo *philo);
 
@@ -121,16 +119,22 @@ long			check_die_timer(t_philo *philo);
 
 //TIMER
 int				timer(t_philo *philo, long interval_time);
-int				start_program_time(t_philo **philo);
 int				reset_die_timer(t_philo *philo);
-//TIMER2
 long			current_time_stamp_ms(t_philo *philo);
-long long		make_time(struct timeval *timeval);
-int				get_time(struct timeval *timeval, long long *timestamp, t_philo *philo);
+int				get_time(struct timeval *timeval, long long *timestamp);
 
 //FREE_DESTROY
-int	all_free(t_philo **philo, t_state *state);
+int				all_free(t_philo **philo, t_state *state);
 
-int	check_input(int argc, char **argv);
+//CHECK IMPUT
+int				check_input(int argc, char **argv);
+
+//LIBFT
+int				ft_putstr_fd(char *s, int fd);
+int				ft_putnbr_fd(long long n, int fd);
+int				ft_isdigit(int c);
+int				ft_isspace(char c);
+int				ft_atoi(const char *str);
+int				ft_strlen(const char *s);
 
 #endif

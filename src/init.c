@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:23:39 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/30 11:49:48 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/12 10:20:01 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	init_philo(t_philo **philo, int index, t_state *state, int argc)
 		return (MALLOC_ERR);
 	(*philo)->philo_n = index;
 	(*philo)->is_dead = 0;
-	(*philo)->err = 0;
 	(*philo)->state = state;
 	(*philo)->state->mutex_fork[index] = malloc(sizeof(pthread_mutex_t));
 	if ((*philo)->state->mutex_fork[index] == NULL)

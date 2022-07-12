@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:57:14 by tiemen            #+#    #+#             */
-/*   Updated: 2022/06/30 13:54:11 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/12 09:39:05 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ long	check_die_timer(t_philo *philo)
 	int	checker;
 
 	checker = 0;
-	get_time(&philo->current_die_timeval, &philo->current_die_timer, philo);
+	get_time(&philo->current_die_timeval, &philo->current_die_timer);
 	if (((philo->current_die_timer - philo->start_die_timer))
 		> philo->state->time_to_die * 1000)
 	{

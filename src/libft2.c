@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   libft2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/15 11:27:38 by tbouma            #+#    #+#             */
-/*   Updated: 2021/12/15 11:28:12 by tbouma           ###   ########.fr       */
+/*   Created: 2022/07/12 10:52:45 by tbouma            #+#    #+#             */
+/*   Updated: 2022/07/12 10:53:06 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#include "../includes/philo.h"
 
-int	recursion(long long n, int fd)
+static int	recursion(long long n, int fd)
 {
 	char	d;
 	int		count;
@@ -50,7 +49,22 @@ int	ft_putnbr_fd(long long n, int fd)
 	return (count);
 }
 
-// int main(void)
-// {
-// 	ft_putnbr_fd(87, 1);
-// }
+int	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	i = ft_strlen(s);
+	return (write(fd, s, i));
+}
+
+int	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
