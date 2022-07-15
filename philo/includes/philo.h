@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/07/12 13:56:05 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/15 09:26:22 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 # include <pthread.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <errno.h>
 # include <stdbool.h>
 # include <limits.h>
 
