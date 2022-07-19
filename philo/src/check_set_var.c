@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:57:14 by tiemen            #+#    #+#             */
-/*   Updated: 2022/07/12 09:39:05 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/19 14:45:46 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,21 @@ int	check_done_eating(t_philo *philo)
 	return (checker);
 }
 
-int	set_die_var(t_philo *philo)
+int	check_set_die_var(t_philo *philo)
 {
+	int	checker;
+
+	checker = NOT_DEAD;
 	pthread_mutex_lock(philo->state->mutex_someone_died);
-	philo->state->someone_died = SELF_DIE;
+	if (philo->state->someone_died == 1)
+		checker = OTHER_DIE;
+	if (philo->state->someone_died == 0)
+	{
+		philo->is_dead = 1;
+		philo->state->someone_died = 1;
+	}
 	pthread_mutex_unlock(philo->state->mutex_someone_died);
-	philo->is_dead = 1;
-	return (0);
+	return (checker);
 }
 
 int	set_meals(t_philo *philo)

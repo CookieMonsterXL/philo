@@ -6,11 +6,34 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 14:22:29 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/30 14:31:18 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/19 14:43:23 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+static int	check_input3(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (i < argc)
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (ft_isdigit(argv[i][j]) == 0)
+			{
+				error_msg("Characters other then digits in arguments.\n");
+				return (2);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
 
 static int	check_input2(int argc, char **argv)
 {
@@ -53,6 +76,8 @@ int	check_input(int argc, char **argv)
 		return (2);
 	}
 	if (check_input2(argc, argv))
+		return (2);
+	if (check_input3(argc, argv))
 		return (2);
 	return (0);
 }

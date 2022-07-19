@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:58:47 by tbouma            #+#    #+#             */
-/*   Updated: 2022/06/30 13:56:41 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:03:38 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ int	die(t_philo *philo)
 {
 	int	checker;
 
-	checker = check_other_dead(philo);
+	checker = check_set_die_var(philo);
 	if (checker != 0)
 		return (checker);
-	checker = set_die_var(philo);
 	usleep(50);
 	pthread_mutex_lock(philo->state->mutex_print);
 	if (print_die(philo))

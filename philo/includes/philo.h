@@ -6,7 +6,7 @@
 /*   By: tbouma <tbouma@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:59:02 by tiemen            #+#    #+#             */
-/*   Updated: 2022/07/15 09:26:22 by tbouma           ###   ########.fr       */
+/*   Updated: 2022/07/19 14:25:09 by tbouma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int				p_sleep(t_philo *philo);
 int				die(t_philo *philo);
 
 //SET CHECK VAR
+int				check_set_die_var(t_philo *philo);
 int				set_die_var(t_philo *philo);
 int				check_other_dead(t_philo *philo);
 int				check_done_eating(t_philo *philo);
